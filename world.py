@@ -3,6 +3,7 @@
 import random
 import enemies
 import npc
+import items
 
 class MapTile:
     def __init__(self, x, y):
@@ -139,13 +140,27 @@ class FindGoldTile(MapTile):
             Someone dropped some gold. You pick it up.
             """
 
+class HnMTile(TraderTile):
+#    def __init__(self,x,y):
+#        self.trader = npc.Trader()
+#        t = self.trader
+#        t.inventory = [items.Oats()]
+#        super().__init__(x,y)
+
+    def intro_text(self):
+        return """
+        This is an H&M store
+        """
+
+#    trader.inventory = [items.Oats()]
+
 world_dsl = """
 |TT|VT|TT|TT|TT|TT|
 |TT|HW|HW|HW|HW|TT|
 |TT|HW|TT|TT|HW|TT|
 |TT|HW|TT|TT|HW|TT|
 |TT|HW|HW|HW|HW|TT|
-|TT|TT|TT|TT|ST|TT|
+|TT|TT|TT|TT|ST|HM|
 """
 
 def is_dsl_valid(dsl):
@@ -167,6 +182,7 @@ tile_type_dict = {"VT": VictoryTile,
                   "TT": TraderTile,
                   "FG": FindGoldTile,
                   "HW": HallwayTile,
+                  "HM": HnMTile,
                   "  ": None}  
 
 world_map = []
