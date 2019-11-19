@@ -141,18 +141,16 @@ class FindGoldTile(MapTile):
             """
 
 class HnMTile(TraderTile):
-#    def __init__(self,x,y):
-#        self.trader = npc.Trader()
-#        t = self.trader
-#        t.inventory = [items.Oats()]
-#        super().__init__(x,y)
+    def __init__(self,x,y):
+        super().__init__(x,y)
+        self.trader.inventory = [items.Oats()]
 
     def intro_text(self):
         return """
         This is an H&M store
         """
 
-#    trader.inventory = [items.Oats()]
+    
 
 world_dsl = """
 |TT|VT|TT|TT|TT|TT|
