@@ -4,12 +4,15 @@
 from player import Player
 import world
 from collections import OrderedDict
+import os
 
 def play():
     print('The search for Quat')
     world.parse_world_dsl()
     player = Player()
     while player.is_alive() and not player.victory:
+        os.system('cls||clear')
+        print("################# THE QUEST FOR QUAT ######################")
         room = world.tile_at(player.x,player.y)
         print(room.intro_text())
         room.modify_player(player)
@@ -19,12 +22,12 @@ def play():
             print("Your journey has come to an early end.")
 
 def get_player_command():
-    return input('Action: ')
+    return input('> ')
 
 def get_available_actions(room,player):
     actions = OrderedDict()
     print("Choose an action: ")
-    if player.inventory:
+    if player.inventory or True:
         action_adder(actions, 'i', player.print_inventory, "Print Inventory")
     if isinstance(room, world.TraderTile):
         action_adder(actions, 't', player.trade, "Trade")
@@ -52,7 +55,7 @@ def choose_action(room,player):
     action = None
     while not action:
         available_actions = get_available_actions(room,player)
-        action_input = input("Action: ")
+        action_input = input("> ")
         action = available_actions.get(action_input)
         if action:
             action()

@@ -2,17 +2,26 @@
 
 import items
 import world
+import os
 
 class Player:
     def __init__(self):
-        self.inventory = [items.RolledMagazine(),
+        self.inventory = [items.CoffeeCup(),
                           items.CoffeeCup(),
-                          items.Oats()]
+                          items.Oats(),
+                          items.Blouse(),
+                          items.Jeans(),
+                          items.Dagger()
+                         ]
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
         self.hp = 100
-        self.gold = 5
+        self.gold = 500
         self.victory = False
+        self.wear_upper = items.ChristmasSweater()
+        self.wear_lower = items.YogaPants()
+        self.wear_head = items.Headband()
+        self.current_weapon = items.RolledMagazine()
 
     def is_alive(self):
         return self.hp > 0
@@ -34,12 +43,105 @@ class Player:
         self.move(dx=-1,dy=0)
 
     def print_inventory(self):
-        print('Inventory:')
-        for item in self.inventory:
-            print('*' + str(item))
-        print("Gold: {}".format(self.gold))
-#        best_weapon = self.most_powerful_weapon()
-#        print('Your best weapon is your {}'.format(best_weapon))
+        while True:
+            os.system('cls||clear')
+            print('################ INVENTORY #####################')
+            print('In your Herschel backpack you have:')
+            if self.gold > 0:
+                print("  * Money: {} crowns".format(self.gold))
+            if self.inventory:
+                for item in self.inventory:
+                    print('  * ' + str(item))
+            print('')
+            wearing_now = []
+            for w in [self.wear_head,self.wear_upper,self.wear_lower]:
+                if w:
+                    wearing_now.append(w)
+            if not wearing_now:
+                print("You are not wearing any clothes >.>")
+            else:
+                print("You're wearing:")
+                for item in wearing_now:
+                    print('  * ' + str(item))
+            print('')
+            print("You're carrying a {} as a weapon".format(self.current_weapon))
+            print('')
+ 
+            while True:
+                print('Would you like to (W)ield a weapon, (C)hange clothes, '+
+                  'or (Q)uit?')
+                user_input = input('> ')
+                if user_input in ['Q','q']:
+                    return
+                elif user_input in ['W','w']: # Wield weapon
+                    weapons = [item for item in self.inventory
+                               if isinstance(item, items.Weapon)]
+                    if not weapons:
+                        input("You don't have any other weapons. " + 
+                              "Press enter to continue.")
+                        break
+                    print("Choose weapon to wield, or (Q) to quit: ")
+                    for i, item in enumerate(weapons, 1):
+                        print("{}. {}.".format(i, item))
+                    choice = input('> ')
+                    if choice in ['q','Q']:
+                        break
+                    try:
+                        to_wield = weapons[int(choice) - 1]
+                        self.inventory.append(self.current_weapon)
+                        self.current_weapon = to_wield
+                        self.inventory.remove(to_wield)
+                        print('You wield a ' + to_wield.name + '.')
+                        input('Press enter to continue')
+                        break
+                    except (ValueError,IndexError):
+                        input("Invalid choice, press enter to continue.")
+                        break
+                elif user_input in ['C','c']: # Change clothes
+                    wearables = [item for item in self.inventory
+                                if isinstance(item, items.WearableUpper) or
+                                isinstance(item, items.WearableLower) or
+                                isinstance(item, items.WearableHead)]
+                    if not wearables:
+                        input("You don't have any other clothes. " + 
+                              "Press enter to continue.")
+                        break
+                    print("Choose what to wear, or (Q) to quit: ")
+                    for i, item in enumerate(wearables, 1):
+                        print("{}. {}".format(i, item))
+                    choice = input('> ')
+                    if choice in ['Q','q']:
+                        break
+                    try:
+                        to_wear = wearables[int(choice) - 1]
+                        if isinstance(to_wear, items.WearableUpper):
+                            self.inventory.append(self.wear_upper)
+                            self.wear_upper = to_wear
+                            self.inventory.remove(to_wear)
+                            print('You put on a ' + to_wear.name + '.')
+                            input('Press enter to continue')
+                            break
+                        elif isinstance(to_wear, items.WearableLower):
+                            self.inventory.append(self.wear_lower)
+                            self.wear_lower = to_wear
+                            self.inventory.remove(to_wear)
+                            print('You put on a ' + to_wear.name + '.')
+                            input('Press enter to continue')
+                            break
+                        elif isinstance(to_wear, items.WearableHead):
+                            self.inventory.append(self.wear_head)
+                            self.wear_head = to_wear
+                            self.inventory.remove(to_wear)
+                            print('You put on a ' + to_wear.name + '.')
+                            input('Press enter to continue')
+                            break
+                        else:
+                            print("Error: Unknown type of wearable")
+                    except (ValueError,IndexError):
+                        print("Invalid choice, press enter to continue.")
+                        input('')
+                        break
+                              
 
     def most_powerful_weapon(self):
         max_damage = 0

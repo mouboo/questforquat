@@ -156,7 +156,7 @@ world_dsl = """
 |TT|VT|TT|TT|TT|TT|
 |TT|HW|HW|HW|HW|TT|
 |TT|HW|TT|TT|HW|TT|
-|TT|HW|TT|TT|HW|TT|
+|TT|HW|TT|TT|FG|TT|
 |TT|HW|HW|HW|HW|TT|
 |TT|TT|TT|TT|ST|HM|
 """
