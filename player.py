@@ -142,6 +142,8 @@ class Player:
                         input('')
                         break
                               
+    def pick_up_item(self):
+        pass
 
     def most_powerful_weapon(self):
         max_damage = 0

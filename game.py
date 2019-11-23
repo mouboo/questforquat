@@ -5,9 +5,11 @@ from player import Player
 import world
 from collections import OrderedDict
 import os
+import art
 
 def play():
-    print('The search for Quat')
+    os.system('cls||clear')
+    input(art.qfq_banner)
     world.parse_world_dsl()
     player = Player()
     while player.is_alive() and not player.victory:
@@ -15,6 +17,8 @@ def play():
         print("################# THE QUEST FOR QUAT ######################")
         room = world.tile_at(player.x,player.y)
         print(room.intro_text())
+        if room.floor_items:
+            print(room.floor_text())
         room.modify_player(player)
         if player.is_alive() and not player.victory:
             choose_action(room,player)
@@ -31,6 +35,8 @@ def get_available_actions(room,player):
         action_adder(actions, 'i', player.print_inventory, "Print Inventory")
     if isinstance(room, world.TraderTile):
         action_adder(actions, 't', player.trade, "Trade")
+    if room.floor_items:
+        action_adder(actions, 'p', player.pick_up_item, "Pick up item")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, 'a', player.attack, "Attack")
     else:

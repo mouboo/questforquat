@@ -9,25 +9,34 @@ class MapTile:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.floor_items = []
 
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead.")
+    
+    def floor_text(self):
+        s = "        On the ground you see: "\
+            + ', '.join(str(i) for i in self.floor_items) + '\n.'
+        return s
 
     def modify_player(self,player):
         pass
 
 class StartTile(MapTile):
+    def __init__(self, x, y):
+        super().__init__(x,y)
+        self.floor_items = ['Map']
+
     def intro_text(self):
         return """
-        You find yourself in a room with lots of plants.
-        There are candles burning.
-        There are doors in the north, south, east, and west directions.
+        You've just stepped inside a mall called Nova. There are many stores
+        and lots of swedes everywhere ignoring each other.
         """
 
 class HallwayTile(MapTile):
     def intro_text(self):
         return """
-        You're in a busy mall hallway. 
+        You're in a busy mall hallway.
         """
 
 class VictoryTile(MapTile):
@@ -36,7 +45,7 @@ class VictoryTile(MapTile):
 
     def intro_text(self):
         return """
-        You see the quat!
+        You have summoned the Quat!
         Victory is yours!
         """
 
@@ -147,10 +156,9 @@ class HnMTile(TraderTile):
 
     def intro_text(self):
         return """
-        This is an H&M store
-        """
-
-    
+        You've just stepped inside a mall called Nova. There are many stores
+        and lots of swedes everywhere ignoring each other.
+        """    
 
 world_dsl = """
 |TT|VT|TT|TT|TT|TT|
