@@ -15,7 +15,7 @@ class MapTile:
         raise NotImplementedError("Create a subclass instead.")
     
     def menace_text(self):
-        return None
+        return False
     
     def floor_text(self):
         s = "        On the ground you see: "\
@@ -158,13 +158,16 @@ class HnMTile(TraderTile):
     def __init__(self,x,y):
         super().__init__(x,y)
         self.trader.inventory = [items.Oats()]
-        self.floor_items = ['Hm stuff','other stuff']
+        self.floor_items = [items.Oats(),items.Blouse()]
 
     def intro_text(self):
         return """
-        You've just stepped inside a mall called Nova. There are many stores
-        and lots of swedes everywhere ignoring each other.
-        """    
+        This is a regular H&M store."""
+
+    def menace_text(self):
+        return '''
+        You hear someone far away yell "OJ! YEEE-sus!"     
+        '''
 
 world_dsl = """
 |TT|VT|TT|TT|TT|TT|

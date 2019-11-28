@@ -14,10 +14,10 @@ def play():
     player = Player()
     while player.is_alive() and not player.victory:
         os.system('cls||clear')
-        print("################# THE QUEST FOR QUAT ######################")
+        print("#" * 30 + " THE QUEST FOR QUAT " + "#" * 30)
         room = world.tile_at(player.x,player.y)
         print(room.intro_text())
-        if room.menace_text:
+        if room.menace_text():
             print(room.menace_text())
         if room.floor_items:
             print(room.floor_text())
