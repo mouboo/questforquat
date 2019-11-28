@@ -45,7 +45,7 @@ class Player:
     def print_inventory(self):
         while True:
             os.system('cls||clear')
-            print('################ INVENTORY #####################')
+            print('#' * 34 + ' INVENTORY ' + '#' * 35)
             print('In your Herschel backpack you have:')
             if self.gold > 0:
                 print("  * Money: {} crowns".format(self.gold))
@@ -68,11 +68,35 @@ class Player:
             print('')
  
             while True:
-                print('Would you like to (W)ield a weapon, (C)hange clothes, '+
-                  'or (Q)uit?')
+                print(('Would you like to (E)xamine an item, ' 
+                       '(W)ield a weapon, (C)hange clothes,\n'
+                       'or (Q)uit inventory?'))
                 user_input = input('> ')
                 if user_input in ['Q','q']:
                     return
+                elif user_input in ['E','e']:
+                    examinables = self.inventory[:]
+                    examinables.extend([self.wear_upper, self.wear_lower,
+                                        self.wear_head, self.current_weapon])
+                    if not examinables:
+                        input("You have nothing to examine. " +
+                                "Press enter to continue")
+                        break
+                    print("Choose item to examine, or (Q)uit examining")
+                    for i, item in enumerate(examinables, 1):
+                        print("{}. {}.".format(i,item))
+                    choice = input('> ')
+                    if choice in ['q','Q']:
+                        break
+                    try:
+                        to_examine = examinables[int(choice) - 1]
+                        print(to_examine.description)
+                        print("Press enter to continue")
+                        input()
+                        break
+                    except (ValueError,IndexError):
+                        input("Invalid choice, press enter to continue.")
+                        break
                 elif user_input in ['W','w']: # Wield weapon
                     weapons = [item for item in self.inventory
                                if isinstance(item, items.Weapon)]
@@ -143,7 +167,24 @@ class Player:
                         break
                               
     def pick_up_item(self):
-        pass
+        room = world.tile_at(self.x, self.y)
+        flooritems = [item for item in room.floor_items]
+        print("Choose item to pick up, or (Q) to quit: ")
+        for i, item in enumerate(flooritems, 1):
+            print("{}. {}.".format(i, item))
+        choice = input('> ')
+        if choice in ['q','Q']:
+            return
+        try:
+            to_pick_up = flooritems[int(choice) - 1]
+            self.inventory.append(to_pick_up)
+            room.floor_items.remove(to_pick_up)
+            print('You pick up a ' + to_pick_up.name + '.')
+            input('Press enter to continue')
+            return
+        except (ValueError,IndexError):
+            input("Invalid choice, press enter to continue.")
+            return
 
     def most_powerful_weapon(self):
         max_damage = 0

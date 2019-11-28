@@ -4,6 +4,7 @@
 class Weapon:
     def __init__(self):
         raise NotImplementedError("Don't create raw Weapon objects.")
+        self.description = "There's nothing interesting about it."
 
     def __str__(self):
         return"{} (+{} damage)".format(self.name, self.damage)        
@@ -33,6 +34,7 @@ class RolledMagazine(Weapon):
 class Consumable:
     def __init__(self):
         raise NotImplementedError("Don't create raw Consumable objects")
+        self.description = "There's nothing interesting about it."
 
     def __str__(self):
         return"{} (+{} HP)".format(self.name, self.healing_value)
@@ -66,6 +68,7 @@ class HealingPotion(Consumable):
 class WearableUpper:
     def __init__(self):
         raise NotImplementedError("Don't create raw WearableUpper objects.")
+        self.description = "There's nothing interesting about it."
 
     def __str__(self):
         return"{} (+{} armor)".format(self.name, self.armor_value)
@@ -88,6 +91,7 @@ class Blouse(WearableUpper):
 class WearableLower:
     def __init__(self):
         raise NotImplementedError("Don't create raw WearableLower objects.")
+        self.description = "There's nothing interesting about it."
 
     def __str__(self):
         return"{} (+{} armor)".format(self.name, self.armor_value)
@@ -110,7 +114,8 @@ class Jeans(WearableLower):
 class WearableHead:
     def __init__(self):
         raise NotImplementedError("Don't create raw WearableLower objects.")
-
+        self.description = "There's nothing interesting about it."
+        
     def __str__(self):
         return"{} (+{} armor)".format(self.name, self.armor_value)
 
@@ -120,3 +125,15 @@ class Headband(WearableHead):
         self.description = "A grey soft headband with a bow in the front."
         self.armor_value = 5
         self.value = 15
+
+# Special items
+
+class MallMap:
+    def __init__(self):
+        self.name = "Mall Map"
+        self.description = ("first---------------------last"
+                            "second--------------------last")
+        self.value = 2
+        
+    def __str__(self):
+        return self.name

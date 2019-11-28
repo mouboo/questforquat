@@ -14,6 +14,9 @@ class MapTile:
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead.")
     
+    def menace_text(self):
+        return None
+    
     def floor_text(self):
         s = "        On the ground you see: "\
             + ', '.join(str(i) for i in self.floor_items) + '\n.'
@@ -25,7 +28,7 @@ class MapTile:
 class StartTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x,y)
-        self.floor_items = ['Map']
+        self.floor_items = [items.HealingPotion(),items.Rock()]
 
     def intro_text(self):
         return """
@@ -84,8 +87,8 @@ class TraderTile(MapTile):
 
     def check_if_trade(self, player):
         while True:
-            print("Would you like to (B)uy, (S)ell, or (Q)uit?")
-            user_input = input()
+            print("Would you like to (B)uy, (S)ell, or (Q)uit trading?")
+            user_input = input('> ')
             if user_input in ['Q','q']:
                 return
             elif user_input in ['B','b']:
@@ -101,7 +104,8 @@ class TraderTile(MapTile):
         for i, item in enumerate(seller.inventory, 1):
             print("{}. {} - {} Gold".format(i, item.name, item.value))
         while True:
-            user_input = input("Choose an item or press Q to exit: ")
+            print('Choose an item or (Q)uit trading')
+            user_input = input('> ')
             if user_input in ['Q','q']:
                 return
             else:
@@ -109,8 +113,9 @@ class TraderTile(MapTile):
                     choice = int(user_input)
                     to_swap = seller.inventory[choice - 1]
                     self.swap(seller,buyer,to_swap)
-                except ValueError:
-                    print("Invalid choice.")
+                    return
+                except (IndexError,ValueError):
+                    input("Invalid choice. Press enter to continue.")                 
 
     def swap(self,seller,buyer,item):
         if item.value > buyer.gold:
@@ -153,6 +158,7 @@ class HnMTile(TraderTile):
     def __init__(self,x,y):
         super().__init__(x,y)
         self.trader.inventory = [items.Oats()]
+        self.floor_items = ['Hm stuff','other stuff']
 
     def intro_text(self):
         return """

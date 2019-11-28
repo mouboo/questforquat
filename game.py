@@ -17,6 +17,8 @@ def play():
         print("################# THE QUEST FOR QUAT ######################")
         room = world.tile_at(player.x,player.y)
         print(room.intro_text())
+        if room.menace_text:
+            print(room.menace_text())
         if room.floor_items:
             print(room.floor_text())
         room.modify_player(player)
@@ -31,8 +33,7 @@ def get_player_command():
 def get_available_actions(room,player):
     actions = OrderedDict()
     print("Choose an action: ")
-    if player.inventory or True:
-        action_adder(actions, 'i', player.print_inventory, "Print Inventory")
+    action_adder(actions, 'i', player.print_inventory, "Inventory")
     if isinstance(room, world.TraderTile):
         action_adder(actions, 't', player.trade, "Trade")
     if room.floor_items:
@@ -40,6 +41,7 @@ def get_available_actions(room,player):
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, 'a', player.attack, "Attack")
     else:
+        print("--------------")
         if world.tile_at(room.x, room.y - 1):
             action_adder(actions, 'n', player.move_north, "Go north")
         if world.tile_at(room.x, room.y + 1):
