@@ -21,5 +21,3 @@ qfq_banner = r"""
        Press enter to start...  
 
 """
-
-test = "test"
