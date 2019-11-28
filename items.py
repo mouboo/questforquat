@@ -165,3 +165,15 @@ class BookofQuat(Book):
         self.name = "Book of Quat"
         self.description = "A leather bound book with a big star on the front."
         self.value = 100
+
+class PoetryBook(Book):
+    def __init__(self):
+        self.name = "Poetry from around the world"
+        self.description = "some poems"
+        self.value = 10
+
+class HouseOfLeavesBook(Book):
+    def __init__(self):
+        self.name = "House of Leaves"
+        self.description = "The book seems larger on the inside somehow."
+        self.value = 8

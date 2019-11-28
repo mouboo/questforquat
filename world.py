@@ -169,10 +169,12 @@ class HnMTile(TraderTile):
         You hear someone far away yell "Oj! Yeee-sus!"     
         '''
 
-class BookStore(TraderTile):
+class BookStoreTile(TraderTile):
     def __init__(self,x,y):
         super().__init__(x,y)
-        self.trader.inventory = [items.BookofQuat()]
+        self.trader.inventory = [items.PoetryBook(),
+                                 items.BookofQuat(),
+                                 items.HouseOfLeavesBook()]
         
 
 world_dsl = """
@@ -181,7 +183,7 @@ world_dsl = """
 |TT|HW|TT|TT|HW|TT|
 |TT|HW|TT|TT|FG|TT|
 |TT|HW|HW|HW|HW|HM|
-|  |TT|TT|EN|ST|  |
+|  |TT|TT|BS|ST|  |
 """
 
 def is_dsl_valid(dsl):
@@ -204,6 +206,7 @@ tile_type_dict = {"VT": VictoryTile,
                   "FG": FindGoldTile,
                   "HW": HallwayTile,
                   "HM": HnMTile,
+                  "BS": BookStoreTile,
                   "  ": None}  
 
 world_map = []
