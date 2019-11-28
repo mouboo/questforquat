@@ -28,7 +28,7 @@ class MapTile:
 class StartTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x,y)
-        self.floor_items = [items.HealingPotion(),items.Rock()]
+        self.floor_items = [items.HealingPotion(),items.Rock(),items.MallMap()]
 
     def intro_text(self):
         return """
@@ -166,16 +166,22 @@ class HnMTile(TraderTile):
 
     def menace_text(self):
         return '''
-        You hear someone far away yell "OJ! YEEE-sus!"     
+        You hear someone far away yell "Oj! Yeee-sus!"     
         '''
 
+class BookStore(TraderTile):
+    def __init__(self,x,y):
+        super().__init__(x,y)
+        self.trader.inventory = [items.BookofQuat()]
+        
+
 world_dsl = """
-|TT|VT|TT|TT|TT|TT|
+|  |VT|TT|TT|TT|  |
 |TT|HW|HW|HW|HW|TT|
 |TT|HW|TT|TT|HW|TT|
 |TT|HW|TT|TT|FG|TT|
-|TT|HW|HW|HW|HW|TT|
-|TT|TT|TT|TT|ST|HM|
+|TT|HW|HW|HW|HW|HM|
+|  |TT|TT|EN|ST|  |
 """
 
 def is_dsl_valid(dsl):

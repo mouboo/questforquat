@@ -131,9 +131,37 @@ class Headband(WearableHead):
 class MallMap:
     def __init__(self):
         self.name = "Mall Map"
-        self.description = ("first---------------------last"
-                            "second--------------------last")
+        self.description = ("          === MAP OF NOVA MALL ===         \n"
+                            "       +------+------+------+------+       \n"
+                            "       |  VT  |  TT  |  TT  |  TT  |       \n"
+                            "+------+......+......+......+......+------+\n"
+                            "|  TT  :                           :  TT  |\n"
+                            "+------+      +......+......+      +------+\n"
+                            "|  TT  :      :  TT  |  TT  :      :  TT  |\n"
+                            "+------+      +------+------+      +------+\n"
+                            "|  TT  :      :  TT  |  TT  :      :  TT  |\n"
+                            "+------+      +......+......+      +------+\n"
+                            "|  TT  :                           : H&M  |\n"
+                            "+------+......+......+......+      +------+\n"
+                            "       |  TT  |  TT  |  EN  |   X  |       \n"
+                            "       +------+------+------+------+       \n"
+                            "             (X = You are here)            \n")
         self.value = 2
         
     def __str__(self):
         return self.name
+
+# Books
+class Book:
+    def __init__(self):
+        raise NotImplementedError("Don't create raw Book objects.")
+        self.description = "There's nothing interesting about it"
+
+    def __str__(self):
+        return self.name
+
+class BookofQuat(Book):
+    def __init__(self):
+        self.name = "Book of Quat"
+        self.description = "A leather bound book with a big star on the front."
+        self.value = 100
