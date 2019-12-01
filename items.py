@@ -1,5 +1,7 @@
 #items.py
 
+import art
+
 # Weapons
 class Weapon:
     def __init__(self):
@@ -145,21 +147,7 @@ class WizardsHat(WearableHead):
 class MallMap:
     def __init__(self):
         self.name = "Mall Map"
-        self.description = ("          === MAP OF NOVA MALL ===         \n"
-                            "       +------+------+------+------+       \n"
-                            "       |  VT  |  TT  |  TT  |  TT  |       \n"
-                            "+------+......+......+......+......+------+\n"
-                            "|  TT  :                           :  TT  |\n"
-                            "+------+      +......+......+      +------+\n"
-                            "|  TT  :      :  TT  |  TT  :      :  TT  |\n"
-                            "+------+      +------+------+      +------+\n"
-                            "|  TT  :      :  TT  |  TT  :      :  TT  |\n"
-                            "+------+      +......+......+      +------+\n"
-                            "|  TT  :                           : H&M  |\n"
-                            "+------+......+......+......+      +------+\n"
-                            "       |  TT  |  TT  |  EN  | Start|       \n"
-                            "       +------+------+------+------+       \n"
-                            "             (X = You are here)            \n")
+        self.description = art.mall_map
         self.value = 2
         
     def __str__(self):

@@ -168,6 +168,15 @@ class HnMTile(TraderTile):
         You hear someone far away yell "Oj! Yeee-sus!"     
         '''
 
+class COTile(TraderTile):
+    def __init__(self,x,y):
+        super().__init__(x,y)
+        self.trader.inventory = [items.ScrubDaddy()]
+
+    def intro_text(self):
+        return """
+        This is a Clas Olsson store."""
+
 class BookStoreTile(TraderTile):
     def __init__(self,x,y):
         super().__init__(x,y)
@@ -177,12 +186,12 @@ class BookStoreTile(TraderTile):
         
 
 world_dsl = """
-|  |VT|TT|TT|TT|  |
+|VT|TT|TT|TT|TT|  |
 |TT|HW|HW|HW|HW|TT|
-|TT|HW|TT|TT|HW|TT|
-|TT|HW|TT|TT|FG|TT|
+|TT|HW|TT|TT|HW|BS|
+|CO|HW|TT|TT|FG|TT|
 |TT|HW|HW|HW|HW|HM|
-|  |TT|TT|BS|ST|  |
+|  |TT|TT|TT|ST|  |
 """
 
 def is_dsl_valid(dsl):
@@ -206,6 +215,7 @@ tile_type_dict = {"VT": VictoryTile,
                   "HW": HallwayTile,
                   "HM": HnMTile,
                   "BS": BookStoreTile,
+                  "CO": COTile,
                   "  ": None}  
 
 world_map = []
