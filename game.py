@@ -64,6 +64,8 @@ def choose_action(room,player):
     while not action:
         available_actions = get_available_actions(room,player)
         action_input = input("> ")
+        if action_input == "I am a good girl":
+            player.win_game()
         action = available_actions.get(action_input)
         if action:
             action()

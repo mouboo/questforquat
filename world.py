@@ -43,13 +43,12 @@ class HallwayTile(MapTile):
         """
 
 class VictoryTile(MapTile):
-    def modify_player(self, player):
-        player.victory = True
+#    def modify_player(self, player):
+#        player.victory = True
 
     def intro_text(self):
         return """
-        You have summoned the Quat!
-        Victory is yours!
+        You are standing in the cult-ish ritual room
         """
 
 class EnemyTile(MapTile):

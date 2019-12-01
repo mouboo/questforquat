@@ -3,6 +3,7 @@
 import items
 import world
 import os
+import sys
 
 class Player:
     def __init__(self):
@@ -11,16 +12,17 @@ class Player:
                           items.Oats(),
                           items.Blouse(),
                           items.Jeans(),
-                          items.Dagger()
+                          items.Dagger(),
+                          items.ScrubDaddy(),
                          ]
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
         self.hp = 100
         self.gold = 500
         self.victory = False
-        self.wear_upper = items.ChristmasSweater()
+        self.wear_upper = items.Robe()
         self.wear_lower = items.YogaPants()
-        self.wear_head = items.Headband()
+        self.wear_head = items.WizardsHat()
         self.current_weapon = items.RolledMagazine()
 
     def is_alive(self):
@@ -69,7 +71,8 @@ class Player:
  
             while True:
                 print(('Would you like to (E)xamine an item, ' 
-                       '(W)ield a weapon, (C)hange clothes,\n'
+                       '(D)rop an item to the floor\n'
+                       '(W)ield a weapon, (C)hange clothes, '
                        'or (Q)uit inventory?'))
                 user_input = input('> ')
                 if user_input in ['Q','q']:
@@ -97,6 +100,9 @@ class Player:
                     except (ValueError,IndexError):
                         input("Invalid choice, press enter to continue.")
                         break
+                elif user_input in ['D','d']: # Drop item
+                    self.drop_item()
+                    break
                 elif user_input in ['W','w']: # Wield weapon
                     weapons = [item for item in self.inventory
                                if isinstance(item, items.Weapon)]
@@ -182,7 +188,27 @@ class Player:
             print('You pick up a ' + to_pick_up.name + '.')
             input('Press enter to continue')
             return
-        except (ValueError,IndexError):
+        except (ValueError, IndexError):
+            input("Invalid choice, press enter to continue.")
+            return
+
+    def drop_item(self):
+        room = world.tile_at(self.x, self.y)
+        droppable = [item for item in self.inventory]
+        print("Choose item to drop to the floor, or (Q) to quit: ")
+        for i, item in enumerate(droppable, 1):
+            print("{}. {}.".format(i, item))
+        choice = input('> ')
+        if choice in ['q','Q']:
+            return
+        try:
+            to_drop = droppable[int(choice) - 1]
+            room.floor_items.append(to_drop)
+            self.inventory.remove(to_drop)
+            print('You drop a ' + to_drop.name + ' to the floor.')
+            input('Press enter to continue')
+            return
+        except (ValueError, IndexError):
             input("Invalid choice, press enter to continue.")
             return
 
@@ -235,3 +261,20 @@ class Player:
     def trade(self):
         room = world.tile_at(self.x, self.y)
         room.check_if_trade(self)
+
+    def win_game(self):
+        # See if player is in VictoryTile
+        room = world.tile_at(self.x, self.y)
+        if not type(room) is world.VictoryTile:
+            return 
+        # See if summon items are on the floor
+        summon_items_set = {items.ScrubDaddy, items.Oats}
+        floor_items_set = {type(item) for item in room.floor_items}
+        if not summon_items_set.issubset(floor_items_set):
+            return
+        print("You have summoned the quat")
+        # See if player is wearing the right clothes
+        if (type(self.wear_upper) == type(items.Robe()) and
+                type(self.wear_head) == type(items.WizardsHat())):
+            self.victory = True
+            sys.exit(0)

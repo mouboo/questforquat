@@ -87,6 +87,13 @@ class Blouse(WearableUpper):
         self.armor_value = 5
         self.value = 80
 
+class Robe(WearableUpper):
+    def __init__(self):
+        self.name = "Robe"
+        self.description = "A nice robe."
+        self.armor_value = 10
+        self.value = 80
+
 # Wearable - lower
 class WearableLower:
     def __init__(self):
@@ -126,6 +133,13 @@ class Headband(WearableHead):
         self.armor_value = 5
         self.value = 15
 
+class WizardsHat(WearableHead):
+    def __init__(self):
+        self.name = "Wizards Hat"
+        self.description = "A big wizards hat with a pointy tip."
+        self.armor_value = 5
+        self.value = 50
+
 # Special items
 
 class MallMap:
@@ -143,10 +157,20 @@ class MallMap:
                             "+------+      +......+......+      +------+\n"
                             "|  TT  :                           : H&M  |\n"
                             "+------+......+......+......+      +------+\n"
-                            "       |  TT  |  TT  |  EN  |   X  |       \n"
+                            "       |  TT  |  TT  |  EN  | Start|       \n"
                             "       +------+------+------+------+       \n"
                             "             (X = You are here)            \n")
         self.value = 2
+        
+    def __str__(self):
+        return self.name
+
+class ScrubDaddy:
+    def __init__(self):
+        self.name = "Scrub Daddy"
+        self.description = ("A circular hard sponge in the shape of a "
+                           "yellow smiley")
+        self.value = 20
         
     def __str__(self):
         return self.name
