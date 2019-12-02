@@ -4,6 +4,7 @@ import items
 import world
 import os
 import sys
+import time
 
 class Player:
     def __init__(self):
@@ -71,7 +72,7 @@ class Player:
  
             while True:
                 print(('Would you like to (E)xamine an item, ' 
-                       '(D)rop an item to the floor\n'
+                       '(D)rop an item to the floor,\n'
                        '(W)ield a weapon, (C)hange clothes, '
                        'or (Q)uit inventory?'))
                 user_input = input('> ')
@@ -262,6 +263,20 @@ class Player:
         room = world.tile_at(self.x, self.y)
         room.check_if_trade(self)
 
+    def utter(self):
+        room = world.tile_at(self.x, self.y)
+        user_input = input('You clear your throat and utter: ')
+        if user_input == "croatoan":
+            print("A shimmer of protective light surrounds you!")
+            input("Press enter to continue")
+        elif user_input == "I am a good girl":
+            print("you said the secret phrase")
+            input("Press enter to continue")
+            self.win_game()
+        else:
+            print('You utter "{}"'.format(user_input))
+            input("Press enter to continue") 
+
     def win_game(self):
         # See if player is in VictoryTile
         room = world.tile_at(self.x, self.y)
@@ -272,9 +287,20 @@ class Player:
         floor_items_set = {type(item) for item in room.floor_items}
         if not summon_items_set.issubset(floor_items_set):
             return
-        print("You have summoned the quat")
         # See if player is wearing the right clothes
-        if (type(self.wear_upper) == type(items.Robe()) and
+        if not (type(self.wear_upper) == type(items.Robe()) and
                 type(self.wear_head) == type(items.WizardsHat())):
-            self.victory = True
-            sys.exit(0)
+            return
+        #OK, all conditions are right, let's do this!
+        print("Slowly, the light in the room starts to get brighter... ")
+        input("(Press enter)")
+        print(("... and brighter, and a thousand times brighter, until you "
+               "can't see anything anymore..."))
+        input("(Press enter)")
+        os.system('cls||clear')
+        time.sleep(3)
+        print("...and then...")
+        print("you win,")
+        input("(Press enter)")
+               
+        

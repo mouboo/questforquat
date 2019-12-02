@@ -38,6 +38,7 @@ def get_available_actions(room,player):
         action_adder(actions, 't', player.trade, "Trade")
     if room.floor_items:
         action_adder(actions, 'p', player.pick_up_item, "Pick up item")
+    action_adder(actions,'u', player.utter, "Utter")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, 'a', player.attack, "Attack")
     else:
@@ -64,8 +65,6 @@ def choose_action(room,player):
     while not action:
         available_actions = get_available_actions(room,player)
         action_input = input("> ")
-        if action_input == "I am a good girl":
-            player.win_game()
         action = available_actions.get(action_input)
         if action:
             action()

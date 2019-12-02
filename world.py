@@ -42,6 +42,13 @@ class HallwayTile(MapTile):
         You're in a busy mall hallway.
         """
 
+class PenultimateTile(MapTile):
+    def intro_text(self):
+        return """
+        This room looks rather empty, except for a very suspicious
+        backdoor to the west. 
+        """
+
 class VictoryTile(MapTile):
 #    def modify_player(self, player):
 #        player.victory = True
@@ -186,7 +193,7 @@ class BookStoreTile(TraderTile):
         
 
 world_dsl = """
-|VT|TT|TT|TT|TT|  |
+|VT|PT|TT|TT|TT|  |
 |TT|HW|HW|HW|HW|TT|
 |TT|HW|TT|TT|HW|BS|
 |CO|HW|TT|TT|FG|TT|
@@ -216,6 +223,7 @@ tile_type_dict = {"VT": VictoryTile,
                   "HM": HnMTile,
                   "BS": BookStoreTile,
                   "CO": COTile,
+                  "PT": PenultimateTile,
                   "  ": None}  
 
 world_map = []
